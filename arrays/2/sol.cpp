@@ -9,36 +9,32 @@ void swap(int& i, int& j) {
     j = temp;
 }
 
+int partition(vector<int>& arr, int start, int end) {
+    int pivot = arr[end];
+
+    int left = start;
+    for (int right = start; right < end; right++) {
+        if (arr[right] <= pivot) {
+            swap(arr[left], arr[right]);
+            left++;
+        }
+    }
+    swap(arr[left], arr[end]);
+    return left;
+}
+
 void sort(vector<int>& arr, int start, int end) {
     if (end <= start) {
         return;
     }
-    int pivot = arr[end];
-    int i = start, j = end;
-    while (i <= j) {
-        if (arr[i] >= pivot) {
-            swap(arr[i], arr[j]);
-            j--;
-        } else {
-            i++;
-        }
-    }
-
+    int i = partition(arr, start, end);
     sort(arr, start, i - 1);
-    sort(arr, i, end);
+    sort(arr, i + 1, end);
 }
 
 vector<int> kthSmallLarge(vector<int>& arr, int n, int k) {
     // Write your code here.
-    for (int x : arr) {
-        cout << x << " ";
-    }
-    cout << endl;
     sort(arr, 0, n - 1);
-    for (int x : arr) {
-        cout << x << " ";
-    }
-    cout << endl;
     vector<int> ret = {arr[k - 1], arr[n - k]};
     return ret;
 }
