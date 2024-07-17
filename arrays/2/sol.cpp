@@ -23,19 +23,25 @@ int partition(vector<int>& arr, int start, int end) {
     return left;
 }
 
-void sort(vector<int>& arr, int start, int end) {
-    if (end <= start) {
-        return;
+int quickselect(vector<int>& arr, int start, int end, int k) {
+    if (k < start || k > end) {
+        return -1;
     }
     int i = partition(arr, start, end);
-    sort(arr, start, i - 1);
-    sort(arr, i + 1, end);
+    if (i == k) {
+        return arr[i];
+    }
+    if (i > k) {
+        return quickselect(arr, start, i - 1, k);
+    } else {
+        return quickselect(arr, i + 1, end, k);
+    }
 }
 
 vector<int> kthSmallLarge(vector<int>& arr, int n, int k) {
     // Write your code here.
-    sort(arr, 0, n - 1);
-    vector<int> ret = {arr[k - 1], arr[n - k]};
+    vector<int> ret = {quickselect(arr, 0, n - 1, k - 1),
+                       quickselect(arr, 0, n - 1, n - k)};
     return ret;
 }
 
