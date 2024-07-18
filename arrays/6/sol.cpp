@@ -4,11 +4,18 @@ using namespace std;
 
 vector<int> rotateArray(vector<int> arr, int k) {
     // Write your code here.
-    vector<int> ret(arr.size());
-    for (int i = 0; i < arr.size(); i++) {
-        ret[i] = arr[(i + k) % arr.size()];
+    int n = arr.size();
+    int temp[k];
+    for (int i = 0; i < k; i++) {
+        temp[i] = arr[i];
     }
-    return ret;
+    for (int i = 0; i < n - k; i++) {
+        arr[i] = arr[i + k];
+    }
+    for (int i = 0; i < k; i++) {
+        arr[i + n - k] = temp[i];
+    }
+    return arr;
 }
 
 void testcase() {
