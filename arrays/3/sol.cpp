@@ -2,18 +2,29 @@
 
 using namespace std;
 
+void swap(int& a, int& b) {
+    int temp = a;
+    a = b;
+    b = temp;
+}
+
 void sort012(int* arr, int n) {
     //   Write your code here
-    int count[3] = {0, 0, 0};
-    for (int i = 0; i < n; i++) {
-        count[arr[i]]++;
-    }
-    int till = 0;
-    for (int j = 0; j < 3; j++) {
-        for (int i = till; i < till + count[j]; i++) {
-            arr[i] = j;
+    int left = 0, current = 0, right = n - 1;
+    while (current < n && current <= right) {
+        if (arr[current] == 0) {
+            if (current >= left) {
+                swap(arr[current], arr[left]);
+                left++;
+            } else {
+                current++;
+            }
+        } else if (arr[current] == 2) {
+            swap(arr[current], arr[right]);
+            right--;
+        } else {
+            current++;
         }
-        till += count[j];
     }
 }
 
@@ -24,6 +35,11 @@ void testcase() {
     for (int i = 0; i < n; i++) {
         cin >> arr[i];
     }
+
+    for (int i = 0; i < n; i++) {
+        cout << arr[i] << " ";
+    }
+    cout << endl;
 
     sort012(arr, n);
 
