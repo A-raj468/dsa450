@@ -2,22 +2,6 @@
 
 using namespace std;
 
-int binarySearch(vector<int>& arr, int value) {
-    int l = 0, r = arr.size() - 1;
-    while (l <= r) {
-        int mid = l + (r - l) / 2;
-        if (arr[mid] == value) {
-            return mid;
-        }
-        if (arr[mid] > value) {
-            r = mid - 1;
-        } else {
-            l = mid + 1;
-        }
-    }
-    return -1;
-}
-
 pair<int, int> findSimilarity(vector<int> arr1,
                               vector<int> arr2,
                               int n,
@@ -28,10 +12,15 @@ pair<int, int> findSimilarity(vector<int> arr1,
         arr1 = arr2;
         arr2 = temp;
     }
-    sort(arr2.begin(), arr2.end());
+
+    unordered_map<int, int> frequency;
+    for (int i = 0; i < arr2.size(); i++) {
+        frequency[arr2[i]] = 1;
+    }
+
     int countCommon = 0;
     for (int i = 0; i < arr1.size(); i++) {
-        if (binarySearch(arr2, arr1[i]) != -1) {
+        if (frequency[arr1[i]] == 1) {
             countCommon++;
         }
     }
