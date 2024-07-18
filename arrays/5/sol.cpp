@@ -2,10 +2,17 @@
 
 using namespace std;
 
-int findIdx(vector<int>& arr, int value) {
-    for (int i = 0; i < arr.size(); i++) {
-        if (value == arr[i]) {
-            return i;
+int binarySearch(vector<int>& arr, int value) {
+    int l = 0, r = arr.size() - 1;
+    while (l <= r) {
+        int mid = l + (r - l) / 2;
+        if (arr[mid] == value) {
+            return mid;
+        }
+        if (arr[mid] > value) {
+            r = mid - 1;
+        } else {
+            l = mid + 1;
         }
     }
     return -1;
@@ -16,9 +23,15 @@ pair<int, int> findSimilarity(vector<int> arr1,
                               int n,
                               int m) {
     // Write Your Code here.
+    if (n < m) {
+        vector<int> temp = arr1;
+        arr1 = arr2;
+        arr2 = temp;
+    }
+    sort(arr2.begin(), arr2.end());
     int countCommon = 0;
-    for (int i = 0; i < n; i++) {
-        if (findIdx(arr2, arr1[i]) != -1) {
+    for (int i = 0; i < arr1.size(); i++) {
+        if (binarySearch(arr2, arr1[i]) != -1) {
             countCommon++;
         }
     }
