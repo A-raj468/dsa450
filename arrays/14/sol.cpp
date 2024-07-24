@@ -1,40 +1,18 @@
 #include <bits/stdc++.h>
+#include <algorithm>
 
 using namespace std;
 
 vector<int> nextPermutation(vector<int>& permutation, int n) {
     //  Write your code here.
-    int prev = permutation[n - 1];
-    int pivot = n - 1;
-    for (pivot = n - 1; pivot >= 0; pivot--) {
-        if (permutation[pivot] < prev) {
-            break;
-        }
-        prev = permutation[pivot];
+    auto it = is_sorted_until(permutation.rbegin(), permutation.rend());
+    if (permutation.rend() == it) {
+        reverse(permutation.rbegin(), permutation.rend());
+    } else {
+        auto next = upper_bound(permutation.rbegin(), it, *it);
+        swap(*it, *next);
+        reverse(permutation.rbegin(), it);
     }
-    if (pivot < 0) {
-        for (int i = 0; i < n / 2; i++) {
-            swap(permutation[i], permutation[n - 1 - i]);
-        }
-        return permutation;
-    }
-    int next;
-    prev = INT32_MAX;
-    for (int i = pivot + 1; i < n; i++) {
-        if (permutation[i] < prev && permutation[i] > permutation[pivot]) {
-            next = i;
-            prev = permutation[i];
-        }
-    }
-    swap(permutation[next], permutation[pivot]);
-
-    for (int i = 0; i <= pivot; i++) {
-        permutation[i] = permutation[i];
-    }
-    for (int i = n - 1; i > (pivot + n - 1) / 2; i--) {
-        swap(permutation[pivot + n - i], permutation[i]);
-    }
-
     return permutation;
 }
 
